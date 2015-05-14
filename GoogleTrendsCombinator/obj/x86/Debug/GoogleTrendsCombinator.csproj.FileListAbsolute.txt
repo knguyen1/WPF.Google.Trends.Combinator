@@ -1,0 +1,16 @@
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Debug\GoogleTrendsCombinator.exe.config
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Debug\GoogleTrendsCombinator.exe
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Debug\GoogleTrendsCombinator.pdb
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Debug\EPPlus.dll
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Debug\System.Net.Http.dll
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Debug\EPPlus.xml
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Debug\System.Net.Http.xml
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Debug\MainWindow.baml
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Debug\MainWindow.g.cs
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Debug\App.g.cs
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Debug\GoogleTrendsCombinator_MarkupCompile.cache
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Debug\GoogleTrendsCombinator.g.resources
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Debug\GoogleTrendsCombinator.Properties.Resources.resources
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Debug\GoogleTrendsCombinator.csproj.GenerateResource.Cache
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Debug\GoogleTrendsCombinator.exe
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Debug\GoogleTrendsCombinator.pdb

@@ -1,0 +1,51 @@
+﻿<Window x:Class="GoogleTrendsCombinator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Name="MyWindow"
+        Background="Azure"
+        Icon="/Resources/gt_icon.png"
+        Title="Google Trends Combinator" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Height="449" Width="780">
+    <Grid Height="405" Width="750">
+        <TabControl Name="MyTabControl"
+                    HorizontalAlignment="Left"
+                    Height="371" VerticalAlignment="Top"
+                    Width="730" Margin="8,12,0,0">
+            <TabItem Name="MakeTab" Header="Make">
+                <Grid Width="730" Height="333">
+                    <Button Content="Select Daily Files" Height="23" HorizontalAlignment="Left" Margin="12,46,0,0" Name="btnSelectDaily" VerticalAlignment="Top" Width="114" Click="button12_Click"/>
+                    <Label Content="Step 1" Height="32" HorizontalAlignment="Left" Margin="12,16,0,0" Name="label1" VerticalAlignment="Top" FontSize="16"/>
+                    <ListBox ItemsSource="{Binding Path=DailyList, ElementName=MyWindow}" Height="190" HorizontalAlignment="Left" Margin="12,75,0,0" Name="listDaily" VerticalAlignment="Top" Width="333" />
+                    <Label Content="Step 2" FontSize="16" Height="32" HorizontalAlignment="Left" Margin="376,16,0,0" Name="label2" VerticalAlignment="Top" />
+                    <Button Content="Select Weekly Files" Height="23" Margin="376,46,231,0" Name="btnSelectWeekly" VerticalAlignment="Top" Click="button12_Click" />
+                    <ListBox Height="190" HorizontalAlignment="Left" ItemsSource="{Binding Path=WeeklyList, ElementName=MyWindow}" Margin="376,75,0,0" Name="listWeekly" VerticalAlignment="Top" Width="333" />
+                    <Button Content="Start Over" Width="90" Height="23" Margin="525,287,0,0" Name="btnClear" VerticalAlignment="Top" Click="btnClear_Click" HorizontalAlignment="Left" />
+                    <Button Content="Save As" Width="90" Height="23" Margin="0,287,20,0" Name="btnSubmit" VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnSubmit_Click"/>
+                    <CheckBox IsChecked="True" Content="Output to same directory as input?" Height="16" HorizontalAlignment="Left" Margin="12,271,0,0" Name="checkBox1" VerticalAlignment="Top" />
+                    <!--<ProgressBar Height="10" HorizontalAlignment="Left" Margin="12,315,0,0" Name="progressBar1" VerticalAlignment="Top" Width="699" />-->
+                    <Label Content="{Binding Path=StatusText, ElementName=MyWindow, NotifyOnTargetUpdated=True}" Height="32" HorizontalAlignment="Left" Margin="8,297,0,0" Name="lbl_Status" VerticalAlignment="Top" FontSize="12" Foreground="IndianRed" Width="337">
+                        <Label.Triggers>
+                            <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:6" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Grid>
+
+            </TabItem>
+            
+            <TabItem Header="TODO: Search">
+                
+            </TabItem>
+            
+        </TabControl>
+    </Grid>
+</Window>

@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GoogleTrendsCombinator" GeneratedClassName="Settings1">
+  <Profiles />
+  <Settings>
+    <Setting Name="loginUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://accounts.google.com/ServiceLogin</Value>
+    </Setting>
+    <Setting Name="defaultExcel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\test.xlsx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
