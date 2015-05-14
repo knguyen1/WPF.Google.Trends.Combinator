@@ -178,7 +178,8 @@ namespace GoogleTrendsCombinator
             using (FileStream fileStream = new FileStream(fileName, FileMode.Create))
             {
                 ExcelClient client = new ExcelClient(dailyParser, weeklyParser, package, fileStream);
-                client.ProcessAndSave();
+                client.Process();
+                client.Save();
             }
 
             StatusText = String.Format("File created: {0}", Path.GetFileName(fileName));

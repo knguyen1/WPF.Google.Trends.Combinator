@@ -23,9 +23,15 @@ namespace GoogleTrendsCombinator
         private Dictionary<string, int> _weeklyDict;
 
         //parser variables
-        private int row = 1;
-        //private int column = 1;
+        private int _row = 1;
 
+        /// <summary>
+        /// Takes two types of parser objects (weekly and daily) and processes them into a combined file.
+        /// </summary>
+        /// <param name="dailyParser">The daily parser object</param>
+        /// <param name="weeklyParser">The weekly parser object</param>
+        /// <param name="package">The Excel package object</param>
+        /// <param name="fileStream">The FileStream object</param>
         public ExcelClient(GoogleTrendsCsvParser dailyParser, GoogleTrendsCsvParser weeklyParser, ExcelPackage package, FileStream fileStream)
         {
             if (dailyParser == null)
@@ -75,7 +81,26 @@ namespace GoogleTrendsCombinator
             }
         }
 
-        public void ProcessAndSave()
+        /// <summary>
+        /// Gets the current row of the Excel client.
+        /// </summary>
+        /// <returns>The int of the current row.</returns>
+        public int GetCurrentRow()
+        {
+            return _row;
+        }
+
+        private void DecreaseRow()
+        {
+            _row--;
+        }
+
+        private void IncreaseRow()
+        {
+            _row++;
+        }
+
+        public void Process()
         {
             var combinedTrends = (from daily in _dailyDict
                                   from weekly in _weeklyDict
@@ -93,29 +118,29 @@ namespace GoogleTrendsCombinator
             var columns = Enum.GetValues(typeof(ExcelColumns));
             foreach (var column in columns)
             {
-                _sheet.Cells[row, (int)column].Value = column.ToString();
+                _sheet.Cells[_row, (int)column].Value = column.ToString();
             }
 
             foreach (var trend in combinedTrends)
             {
                 //increment row
-                row++;
+                IncreaseRow();
 
-                _sheet.Cells[row, (int)ExcelColumns.Date].Value = trend.Date;
-                _sheet.Cells[row, (int)ExcelColumns.WeekStart].Value = trend.WeekStart;
-                _sheet.Cells[row, (int)ExcelColumns.WeekEnd].Value = trend.WeekEnd;
-                _sheet.Cells[row, (int)ExcelColumns.DailyIndex].Value = trend.DailyIndex;
-                _sheet.Cells[row, (int)ExcelColumns.WeeklyIndex].Value = trend.WeeklyIndex;
+                _sheet.Cells[_row, (int)ExcelColumns.Date].Value = trend.Date;
+                _sheet.Cells[_row, (int)ExcelColumns.WeekStart].Value = trend.WeekStart;
+                _sheet.Cells[_row, (int)ExcelColumns.WeekEnd].Value = trend.WeekEnd;
+                _sheet.Cells[_row, (int)ExcelColumns.DailyIndex].Value = trend.DailyIndex;
+                _sheet.Cells[_row, (int)ExcelColumns.WeeklyIndex].Value = trend.WeeklyIndex;
 
                 //re-indexed coefficient formulae
-                int curr = row;
-                int prev = row - 1;
+                int curr = _row;
+                int prev = _row - 1;
                 string coefFormula = String.Format("IF(B{0}=B{1},F{1},E{0}/D{0})", curr, prev);
                 string indexFormula = String.Format("D{0}*F{0}", curr);
 
                 //formulae
-                _sheet.Cells[row, (int)ExcelColumns.ReIndexCoeff].Formula = coefFormula;
-                _sheet.Cells[row, (int)ExcelColumns.ReCalcedIndex].Formula = indexFormula;
+                _sheet.Cells[_row, (int)ExcelColumns.ReIndexCoeff].Formula = coefFormula;
+                _sheet.Cells[_row, (int)ExcelColumns.ReCalcedIndex].Formula = indexFormula;
             }
 
             //UpdateTask(EventArgs.Empty);
@@ -141,11 +166,24 @@ namespace GoogleTrendsCombinator
             _sheet.View.FreezePanes(2, 1);
             _sheet.Row(1).Style.Font.Bold = true;
 
-            _package.SaveAs(_fileStream);
+            //_package.SaveAs(_fileStream);
+            //Save();
 
             //UpdateTask(EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Saves the package to a filestream.
+        /// </summary>
+        public void Save()
+        {
+            _package.SaveAs(_fileStream);
+        }
+
+        /// <summary>
+        /// Returns the full location of the saved object
+        /// </summary>
+        /// <returns>Returns the full location of the object</returns>
         public string GetSavedFileLocation()
         {
             return _package.File.FullName;
