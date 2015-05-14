@@ -24,7 +24,7 @@ namespace GoogleTrendsCombinator
 
         //parser variables
         private int row = 1;
-        private int column = 1;
+        //private int column = 1;
 
         public ExcelClient(GoogleTrendsCsvParser dailyParser, GoogleTrendsCsvParser weeklyParser, ExcelPackage package, FileStream fileStream)
         {
@@ -89,31 +89,23 @@ namespace GoogleTrendsCombinator
                                       WeeklyIndex = weekly.Value
                                   }).OrderBy(x => x.Date);
 
-            //UpdateTask(EventArgs.Empty);
-
-            //headers
-            _sheet.Cells[row, column].Value = "Date";
-            _sheet.Cells[row, column + 1].Value = "WeekStart";
-            _sheet.Cells[row, column + 2].Value = "WeekEnd";
-            _sheet.Cells[row, column + 3].Value = "DailyIndex";
-            _sheet.Cells[row, column + 4].Value = "WeeklyIndex";
-            _sheet.Cells[row, column + 5].Value = "ReIndexedCoeff";
-            _sheet.Cells[row, column + 6].Value = "ReCalcedIndex";
-
-            var props = typeof(GoogleTrends).GetProperties();
-
-            //UpdateTask(EventArgs.Empty);
+            //form the headers using the enum
+            var columns = Enum.GetValues(typeof(ExcelColumns));
+            foreach (var column in columns)
+            {
+                _sheet.Cells[row, (int)column].Value = column.ToString();
+            }
 
             foreach (var trend in combinedTrends)
             {
                 //increment row
                 row++;
 
-                _sheet.Cells[row, column].Value = trend.Date;
-                _sheet.Cells[row, column + 1].Value = trend.WeekStart;
-                _sheet.Cells[row, column + 2].Value = trend.WeekEnd;
-                _sheet.Cells[row, column + 3].Value = trend.DailyIndex;
-                _sheet.Cells[row, column + 4].Value = trend.WeeklyIndex;
+                _sheet.Cells[row, (int)ExcelColumns.Date].Value = trend.Date;
+                _sheet.Cells[row, (int)ExcelColumns.WeekStart].Value = trend.WeekStart;
+                _sheet.Cells[row, (int)ExcelColumns.WeekEnd].Value = trend.WeekEnd;
+                _sheet.Cells[row, (int)ExcelColumns.DailyIndex].Value = trend.DailyIndex;
+                _sheet.Cells[row, (int)ExcelColumns.WeeklyIndex].Value = trend.WeeklyIndex;
 
                 //re-indexed coefficient formulae
                 int curr = row;
@@ -122,8 +114,8 @@ namespace GoogleTrendsCombinator
                 string indexFormula = String.Format("D{0}*F{0}", curr);
 
                 //formulae
-                _sheet.Cells[row, column + 5].Formula = coefFormula;
-                _sheet.Cells[row, column + 6].Formula = indexFormula;
+                _sheet.Cells[row, (int)ExcelColumns.ReIndexCoeff].Formula = coefFormula;
+                _sheet.Cells[row, (int)ExcelColumns.ReCalcedIndex].Formula = indexFormula;
             }
 
             //UpdateTask(EventArgs.Empty);
