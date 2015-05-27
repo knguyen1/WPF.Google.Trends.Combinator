@@ -21,5 +21,19 @@ Google Trends lacks an API that delivers daily trends data for sets more than 90
     {
         //processing of daily indices are encapsulated inside ExcelClient class
         ExcelClient client = new ExcelClient(dailyParser, weeklyParser, package, fileStream);
-        client.ProcessAndSave();
+        
+        //make calculations, reindexes the daily values, then normalize to weekly values
+        client.Process();
+        
+        //make some pretty graphs and charts
+        client.AddCharts();
+        
+        //set sheet active to the charts sheet
+        client.SetSheetAsActive(2);
+        
+        //finally, save the package
+        client.Save();
+        
+        //close and dispose
+        client.Dispose();
     }
