@@ -31,7 +31,6 @@ namespace GoogleTrendsCombinator
             this._files = files;
 
             StringBuilder holder = new StringBuilder();
-
             foreach (var file in _files)
             {
                 string csvRead = File.ReadAllText(file);
@@ -77,18 +76,10 @@ namespace GoogleTrendsCombinator
                 int end = result.IndexOf("\n\n");
 
                 result = result.Substring(endStart, end).ToString();
-
-                //int start = match.Index;
-                //result = _csv.Substring(start, _csv.Length - start);
-
-                //int finalStart = result.NthIndexOf("\n", 2) + 1;
-                //int end = result.IndexOf("\n\n");
-
-                //result = result.Substring(finalStart, end).ToString();
             }
             else
             {
-                return string.Empty;
+                return String.Empty;
             }
 
             return result;
@@ -131,6 +122,23 @@ namespace GoogleTrendsCombinator
                 foreach(var line in lines)
                 {
                     yield return line;
+                }
+            }
+        }
+
+        public IEnumerable<string> GetAllSectionsGrouped(string section)
+        {
+            int group = 0;
+
+            foreach (var sect in GetAllSections(section))
+            {
+                group++; //increment group number for each section
+
+                string[] lines = sect.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+
+                foreach (var line in lines)
+                {
+                    yield return group.ToString() + "Þ" + line;
                 }
             }
         }

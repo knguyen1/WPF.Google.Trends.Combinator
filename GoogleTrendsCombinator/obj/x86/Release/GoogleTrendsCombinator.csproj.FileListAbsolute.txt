@@ -1,10 +1,10 @@
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Release\GoogleTrendsCombinator.exe.config
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Release\GoogleTrendsCombinator.exe.manifest
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Release\GoogleTrendsCombinator.application
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Release\GoogleTrendsCombinator.exe
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Release\GoogleTrendsCombinator.pdb
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Release\EPPlus.dll
-C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Release\System.Net.Http.dll
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Release\EPPlus.xml
-C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\bin\Release\System.Net.Http.xml
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Release\MainWindow.baml
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Release\MainWindow.g.cs
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Release\App.g.cs
@@ -12,5 +12,7 @@ C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\Go
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Release\GoogleTrendsCombinator.g.resources
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Release\GoogleTrendsCombinator.Properties.Resources.resources
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Release\GoogleTrendsCombinator.csproj.GenerateResource.Cache
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Release\GoogleTrendsCombinator.exe.manifest
+C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Release\GoogleTrendsCombinator.application
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Release\GoogleTrendsCombinator.exe
 C:\Users\knguyen\documents\visual studio 2010\Projects\GoogleTrendsCombinator\GoogleTrendsCombinator\obj\x86\Release\GoogleTrendsCombinator.pdb

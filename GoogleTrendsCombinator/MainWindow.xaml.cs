@@ -26,6 +26,7 @@ namespace GoogleTrendsCombinator
         public static readonly DependencyProperty WeeklyListProperty = DependencyProperty.Register("WeeklyList", typeof(ObservableCollection<string>), typeof(MainWindow));
         public static readonly DependencyProperty FileDirCheckBoxProperty = DependencyProperty.Register("IsSameDirBoxChecked", typeof(bool), typeof(MainWindow), new UIPropertyMetadata(true));
         public static readonly DependencyProperty StatusBarTextProperty = DependencyProperty.Register("StatusText", typeof(string), typeof(MainWindow), new UIPropertyMetadata(""));
+        public static readonly DependencyProperty MakeChartsCheckBoxProperty = DependencyProperty.Register("IsMakeChartsChecked", typeof(bool), typeof(MainWindow), new UIPropertyMetadata(true));
 
         public ObservableCollection<string> DailyList
         {
@@ -45,7 +46,11 @@ namespace GoogleTrendsCombinator
             set { SetValue(FileDirCheckBoxProperty, value); }
         }
 
-        //public string StatusText { get; set; }
+        public bool IsMakeChartsChecked
+        {
+            get { return (bool)GetValue(MakeChartsCheckBoxProperty); }
+            set { SetValue(MakeChartsCheckBoxProperty, value); }
+        }
 
         public string StatusText
         {
@@ -178,8 +183,17 @@ namespace GoogleTrendsCombinator
             using (FileStream fileStream = new FileStream(fileName, FileMode.Create))
             {
                 ExcelClient client = new ExcelClient(dailyParser, weeklyParser, package, fileStream);
-                client.Process();
-                client.Save();
+                
+                client.Process(); //normalize and recalculate all indices
+
+                if (IsMakeChartsChecked)
+                {
+                    client.AddCharts();
+                    client.SetSheetAsActive(2); //set the chart sheet as active
+                }
+
+                client.Save(); //save the sheet
+                client.Dispose(); //close and dispose the package
             }
 
             StatusText = String.Format("File created: {0}", Path.GetFileName(fileName));
