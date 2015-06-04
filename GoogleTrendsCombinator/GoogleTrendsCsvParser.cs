@@ -48,7 +48,17 @@ namespace GoogleTrendsCombinator
         {
             int start = _csv.IndexOf(": ");
             int length = _csv.IndexOf("\n") - (start +2);
-            return _csv.Substring(start + 2, length);
+
+            string result = _csv.Substring(start + 2, length);
+
+            //strip all non alphanumeric
+            Regex rgx = new Regex("[^a-zA-Z0-9 -]");
+            result = rgx.Replace(result, String.Empty);
+
+            if (result.Length > 10)
+                result = result.Substring(0, 10);
+
+            return result;
         }
 
         public string GetTopMostDate()
@@ -107,7 +117,18 @@ namespace GoogleTrendsCombinator
                 int endStart = result.NthIndexOf("\n", 2) + 1;
                 int end = result.IndexOf("\n\n\n");
 
+                if (end < 0)
+                    end = result.IndexOf("\r\n,,\r\n,,\r\nTop regions");
+
                 result = result.Substring(endStart, end - endStart).ToString();
+
+                if (result.IndexOf(section) > -1)
+                {
+                    result = result.Substring(0, result.IndexOf("\n\nInterest over time"));
+                }
+
+                if (result.IndexOf("%,") > -1)
+                    continue;
 
                 yield return result;
             }

@@ -19,11 +19,12 @@
                     <Button Content="Select Weekly Files" Height="23" Margin="376,46,231,0" Name="btnSelectWeekly" VerticalAlignment="Top" Click="button12_Click" />
                     <ListBox Height="190" HorizontalAlignment="Left" ItemsSource="{Binding Path=WeeklyList, ElementName=MyWindow}" Margin="376,75,0,0" Name="listWeekly" VerticalAlignment="Top" Width="333" />
                     <Button Content="Start Over" Width="90" Height="23" Margin="525,287,0,0" Name="btnClear" VerticalAlignment="Top" Click="btnClear_Click" HorizontalAlignment="Left" />
-                    <Button Content="Save As" Width="90" Height="23" Margin="0,287,20,0" Name="btnSubmit" VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnSubmit_Click"/>
-                    <CheckBox IsChecked="{Binding Path=IsSameDirBoxChecked, ElementName=MyWindow}" Content="Output to same directory as input" Height="16" HorizontalAlignment="Left" Margin="12,271,0,0" Name="checkBox1" VerticalAlignment="Top" />
-                    <CheckBox IsChecked="{Binding Path=IsMakeChartsChecked, ElementName=MyWindow}" Content="Generate charts" Height="16" HorizontalAlignment="Left" Margin="237,271,0,0" Name="checkBox2" VerticalAlignment="Top" />
+                    <Button Content="Save" Width="90" Height="23" Margin="0,287,20,0" Name="btnSubmit" VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnSubmit_Click"/>
+                    <CheckBox IsChecked="{Binding Path=AskWhereToSave, ElementName=MyWindow}" Content="Ask me where to save the file" Height="16" HorizontalAlignment="Left" Margin="12,271,0,0" Name="checkBox1" VerticalAlignment="Top" />
+                    <CheckBox IsChecked="{Binding Path=IsMakeChartsChecked, ElementName=MyWindow}" Content="Generate charts" Height="16" HorizontalAlignment="Left" Margin="190,271,0,0" Name="checkBox2" VerticalAlignment="Top" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="225,46,0,0" Name="comboBox1" VerticalAlignment="Top" Width="120" />
                     <!--<ProgressBar Height="10" HorizontalAlignment="Left" Margin="12,315,0,0" Name="progressBar1" VerticalAlignment="Top" Width="699" />-->
-                    <Label Content="{Binding Path=StatusText, ElementName=MyWindow, NotifyOnTargetUpdated=True}" Height="32" HorizontalAlignment="Left" Margin="8,297,0,0" Name="lbl_Status" VerticalAlignment="Top" FontSize="12" Foreground="IndianRed" Width="337">
+                    <Label Content="{Binding Path=StatusText, ElementName=MyWindow, NotifyOnTargetUpdated=True}" Height="32" HorizontalAlignment="Left" Margin="9,295,0,0" Name="lbl_Status" VerticalAlignment="Top" FontSize="12" Foreground="IndianRed" Width="337">
                         <Label.Triggers>
                             <EventTrigger RoutedEvent="Binding.TargetUpdated">
                                 <BeginStoryboard>

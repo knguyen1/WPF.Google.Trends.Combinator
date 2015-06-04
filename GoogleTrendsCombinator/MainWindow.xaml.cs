@@ -20,12 +20,14 @@ namespace GoogleTrendsCombinator
         //ObservableCollection<string> dailyList = new ObservableCollection<string>();
         //ObservableCollection<string> weeklyList = new ObservableCollection<string>();
 
+        //private List<int> numberOfSearchTerms;
+
         #region Dependency property
 
         public static readonly DependencyProperty DailyListProperty = DependencyProperty.Register("DailyList", typeof(ObservableCollection<string>), typeof(MainWindow));
         public static readonly DependencyProperty WeeklyListProperty = DependencyProperty.Register("WeeklyList", typeof(ObservableCollection<string>), typeof(MainWindow));
-        public static readonly DependencyProperty FileDirCheckBoxProperty = DependencyProperty.Register("IsSameDirBoxChecked", typeof(bool), typeof(MainWindow), new UIPropertyMetadata(true));
-        public static readonly DependencyProperty StatusBarTextProperty = DependencyProperty.Register("StatusText", typeof(string), typeof(MainWindow), new UIPropertyMetadata(""));
+        public static readonly DependencyProperty PromptWhereToSaveProperty = DependencyProperty.Register("IsSameDirBoxChecked", typeof(bool), typeof(MainWindow), new UIPropertyMetadata(true));
+        public static readonly DependencyProperty StatusBarTextProperty = DependencyProperty.Register("StatusText", typeof(string), typeof(MainWindow), new UIPropertyMetadata(String.Empty));
         public static readonly DependencyProperty MakeChartsCheckBoxProperty = DependencyProperty.Register("IsMakeChartsChecked", typeof(bool), typeof(MainWindow), new UIPropertyMetadata(true));
 
         public ObservableCollection<string> DailyList
@@ -40,10 +42,10 @@ namespace GoogleTrendsCombinator
             set { SetValue(WeeklyListProperty, value); }
         }
 
-        public bool IsSameDirBoxChecked
+        public bool AskWhereToSave
         {
-            get { return (bool)GetValue(FileDirCheckBoxProperty); }
-            set { SetValue(FileDirCheckBoxProperty, value); }
+            get { return (bool)GetValue(PromptWhereToSaveProperty); }
+            set { SetValue(PromptWhereToSaveProperty, value); }
         }
 
         public bool IsMakeChartsChecked
@@ -67,6 +69,13 @@ namespace GoogleTrendsCombinator
             DailyList = new ObservableCollection<string>();
             WeeklyList = new ObservableCollection<string>();
 
+            //numberOfSearchTerms = new List<int>();
+            //numberOfSearchTerms.Add(1);
+            //numberOfSearchTerms.Add(2);
+            //numberOfSearchTerms.Add(3);
+            //numberOfSearchTerms.Add(4);
+            //numberOfSearchTerms.Add(5);
+
             InitializeComponent();
 
             RefreshUI(null, null);
@@ -86,10 +95,6 @@ namespace GoogleTrendsCombinator
             {
                 currentList = WeeklyList;
             }
-
-            ////clear the list
-            //if (currentList.Count > 0)
-            //    currentList.Clear();
 
             //create open file dialog
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -153,50 +158,74 @@ namespace GoogleTrendsCombinator
             GoogleTrendsCsvParser dailyParser = new GoogleTrendsCsvParser(dailyFiles);
             GoogleTrendsCsvParser weeklyParser = new GoogleTrendsCsvParser(weeklyFiles);
 
-            string defaultFileName = string.Format("results-{0}-{1}",
+            string defaultFileName = String.Format("results-{0}-{1}",
                 dailyParser.GetSearchTerm(),
                 dailyParser.GetTopMostDate());
 
-            string outputDir = null;
-            if (IsSameDirBoxChecked)
-                outputDir = Path.GetDirectoryName(DailyList[0]);
-            else
-                outputDir = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            //string outputDir = null;
+            //if (AskWhereToSave)
+            //    outputDir = Path.GetDirectoryName(DailyList[0]);
+            //else
+            //    outputDir = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-            //form the output filename
-            SaveFileDialog saveAs = new SaveFileDialog();
-            saveAs.FileName = defaultFileName; //default filename
-            saveAs.InitialDirectory = outputDir; //default directory
-            saveAs.RestoreDirectory = true;
-            saveAs.DefaultExt = ".xlsx";
-            saveAs.Filter = "Excel Files (*.xlsx)|*.xlsx";
-
+            string outputDir = Path.GetDirectoryName(DailyList[0]);
             string fileName = null;
-            Nullable<bool> result = saveAs.ShowDialog();
-            if (result == true)
-                fileName = saveAs.FileName;
-            else
-                fileName = String.Format("{0}\\{1}.xlsx", outputDir, defaultFileName);
 
-            //declare the excel package and fill it with data
-            using (ExcelPackage package = new ExcelPackage())
-            using (FileStream fileStream = new FileStream(fileName, FileMode.Create))
+            if (AskWhereToSave)
             {
-                ExcelClient client = new ExcelClient(dailyParser, weeklyParser, package, fileStream);
-                
-                client.Process(); //normalize and recalculate all indices
+                //form the output filename
+                SaveFileDialog saveAs = new SaveFileDialog();
+                saveAs.FileName = defaultFileName; //default filename
+                saveAs.InitialDirectory = outputDir; //default directory
+                saveAs.RestoreDirectory = true;
+                saveAs.DefaultExt = ".xlsx";
+                saveAs.Filter = "Excel Files (*.xlsx)|*.xlsx";
 
-                if (IsMakeChartsChecked)
+                Nullable<bool> result = saveAs.ShowDialog();
+                if (result == true)
+                    fileName = saveAs.FileName;
+                else
                 {
-                    client.AddCharts();
-                    client.SetSheetAsActive(2); //set the chart sheet as active
-                }
+                    StatusText = "You pushed canceled, so I didn't do anything. :)";
 
-                client.Save(); //save the sheet
-                client.Dispose(); //close and dispose the package
+                    return;
+                }
+            }
+            else
+            {
+                fileName = String.Format("{0}\\{1}.xlsx", outputDir, defaultFileName);
             }
 
-            StatusText = String.Format("File created: {0}", Path.GetFileName(fileName));
+            try
+            {
+                //declare the excel package and fill it with data
+                using (ExcelPackage package = new ExcelPackage())
+                using (FileStream fileStream = new FileStream(fileName, FileMode.Create))
+                {
+                    ExcelClient client = new ExcelClient(dailyParser, weeklyParser, package, fileStream);
+
+                    client.Process(); //normalize and recalculate all indices
+
+                    if (IsMakeChartsChecked)
+                    {
+                        client.AddCharts();
+                        client.SetSheetAsActive(2); //set the chart sheet as active
+                    }
+
+                    client.Save(); //save the sheet
+                    client.Dispose(); //close and dispose the package
+                }
+
+                StatusText = String.Format("File created: {0}", Path.GetFileName(fileName));
+            }
+            catch (IOException ioExc)
+            {
+                StatusText = "File in use error: " + ioExc.Message;
+            }
+            catch (Exception exc)
+            {
+                StatusText = "Error: " + exc.Message;
+            }
         }
     }
 }

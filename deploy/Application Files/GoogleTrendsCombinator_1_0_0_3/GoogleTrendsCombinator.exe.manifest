@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="GoogleTrendsCombinator.exe" version="1.0.0.3" publicKeyToken="53fce7270833c6b4" language="neutral" processorArchitecture="x86" type="win32" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="GoogleTrendsCombinator" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
+    <commandLine file="GoogleTrendsCombinator.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="EPPlus.dll" size="1119744">
+      <assemblyIdentity name="EPPlus" version="4.0.4.0" publicKeyToken="EA159FDAA78159A1" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>xtA0APMpvnJzyzW6jX9hpgTluzo=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GoogleTrendsCombinator.exe" size="50688">
+      <assemblyIdentity name="GoogleTrendsCombinator" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>gTCwZqSUxNw2LGqqYkRDcxNj49c=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="GoogleTrendsCombinator.exe.config" size="1069">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>l9otH0FUVLMDYx7dxK3dkNxUQKY=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=MBSINTL\knguyen" issuerKeyHash="508220a79b1bea731f2d4aea0bf47ab4c644ea44" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>8fYeNeO+G8QCqxuXlSkqmYjpCZw=</DigestValue></Reference></SignedInfo><SignatureValue>fvI2xVUBvsErsH9Hv85ZEPZGEzbcRMHvAaREmdOQYxbsdvkD2tkrWs3SmfoyeYzUk0UoVCPf/UOvqhXgFXk+WPKKsAqe1G7GzG0XbbVZ6lp646O/5lTlMweIHgrjfg8wyrbRG+2kdl1jQqBoTEFWCBgbA6tU3r1nDtCRc4Vtzw0=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>0VkzDN2hT0qvNLWnB+ai/3omTql8EpSNKL9iQsOKc1XOSyte7pGY43U6ODJASzwZI3jK+TaOgUJkG7JbUnxIKzKL6JYcDRxcBYvhvoXqnJLKHAs7+4Sa9IRlAMw15iX5zX8rXrxpB1RCivTzp/frCf2Wj41v9ctnt3SF7rV4Jq8=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="9c09e988992a2995971bab02c41bbee3351ef6f1" Description="" Url=""><as:assemblyIdentity name="GoogleTrendsCombinator.exe" version="1.0.0.3" publicKeyToken="53fce7270833c6b4" language="neutral" processorArchitecture="x86" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=MBSINTL\knguyen</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>T8W0Rhz70eiiANVh0+Gwy8J+cZg=</DigestValue></Reference></SignedInfo><SignatureValue>LbV/pN77+VTs+skTtyksmOQCGaeEQXi31cjeEO3am3Q9up3y+sPvD7rLIQSagFIBhF5kdx+Ox20Fdfycw+yovFa4reBPEED/ZlPdePD7FlZhPsxql73KgJo8WrD5LrW8d6mmv+vz5LpMu8j3OaRq6v0FCc6VmxD7lqoa7Gjq48o=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>0VkzDN2hT0qvNLWnB+ai/3omTql8EpSNKL9iQsOKc1XOSyte7pGY43U6ODJASzwZI3jK+TaOgUJkG7JbUnxIKzKL6JYcDRxcBYvhvoXqnJLKHAs7+4Sa9IRlAMw15iX5zX8rXrxpB1RCivTzp/frCf2Wj41v9ctnt3SF7rV4Jq8=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB1TCCAT6gAwIBAgIQHfHE7S87jZZBEHGRR5pxWTANBgkqhkiG9w0BAQUFADApMScwJQYDVQQDHh4ATQBCAFMASQBOAFQATABcAGsAbgBnAHUAeQBlAG4wHhcNMTUwNTI2MTQyOTU4WhcNMTYwNTI1MjAyOTU4WjApMScwJQYDVQQDHh4ATQBCAFMASQBOAFQATABcAGsAbgBnAHUAeQBlAG4wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBANFZMwzdoU9KrzS1pwfmov96Jk6pfBKUjSi/YkLDinNVzksrXu6RmON1OjgyQEs8GSN4yvk2joFCZBuyW1J8SCsyi+iWHA0cXAWL4b6F6pySyhwLO/uEmvSEZQDMNeYl+c1/K168aQdUQor086f36wn9lo+Nb/XLZ7d0he61eCavAgMBAAEwDQYJKoZIhvcNAQEFBQADgYEAXtAh4qp3K41+FQaMtnuf+0Qkgh9CFck9DfcIVDZBYjB2sraI83Pu6SZpxIt/RRHrNWmm4+nIcdMOXvGQF2Bwa8w2+VdCTwtU3wKNGDaZThQxoU41dYnQga2t1fv0c6BG03j+Xz6PtM0v+hkP93yo8Ku1Q2IqVWcooBgzW3GOOv8=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

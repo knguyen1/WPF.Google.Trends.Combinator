@@ -22,6 +22,12 @@ namespace GoogleTrendsCombinator
         private ExcelWorksheet _chartSheet;
         private FileStream _fileStream;
 
+        //chart member variables
+        private ExcelChart _chart0;
+        private ExcelChart _chart1;
+        private ExcelChart _chart2;
+        private ExcelChart _chart3;
+
         private Dictionary<string, int> _dailyDict;
         private Dictionary<string, int> _weeklyDict;
 
@@ -122,8 +128,12 @@ namespace GoogleTrendsCombinator
             AddToDict(_weeklyDict, g.GetAllSectionsAsLines("Interest over time"));
         }
 
+        /// <summary>
+        /// Processes and makes calculations and then will insert into the Excel package in memory.
+        /// </summary>
         public void Process()
         {
+            //LINQ
             var combinedTrends = from daily in _dailyDict
                                  from weekly in _weeklyDict
                                  where (DateTime.Parse(daily.Key.Substring(daily.Key.IndexOf("Þ") + 1, 10)) >= DateTime.Parse(weekly.Key.Substring(0, 10)) && DateTime.Parse(daily.Key.Substring(daily.Key.IndexOf("Þ") + 1, 10)) <= DateTime.Parse(weekly.Key.Substring(13, 10)))
@@ -198,7 +208,7 @@ namespace GoogleTrendsCombinator
                 string indexFormula = String.Format("IFERROR(E{0}*G{0},0)", curr);
 
                 //normalizing formulae: (dailyIndex - MinDailyIndex)/(MaxDailyIndex - MinDailyIndex)
-                string normFormula = String.Format("((E{0}-J{0})/(I{0}-J{0}))*(K{0}-L{0}) + L{0}", curr);
+                string normFormula = String.Format("((E{0}-J{0})/(I{0}-J{0}))*(K{0}-L{0})+L{0}", curr);
 
                 //formulae
                 _dataSheet.Cells[_row, (int)ExcelColumns.ReIndexCoeff].Formula = coefFormula;
@@ -219,7 +229,6 @@ namespace GoogleTrendsCombinator
             //int
             _dataSheet.Cells["A:A,E:E,F:F"].Style.Numberformat.Format = "0";
             _dataSheet.Cells["A:A,E:E,F:F,G:G,H:H,M:M"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Right;
-            //_dataSheet.Cells["A:A,E:E,F:F"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Right;
 
             //date
             _dataSheet.Cells["B:B,C:C,D:D"].Style.Numberformat.Format = "MM-dd-yyyy";
@@ -231,13 +240,18 @@ namespace GoogleTrendsCombinator
             _dataSheet.Row(1).Style.Font.Bold = true;
         }
 
+        /// <summary>
+        /// Adds three four different charts to the "Charts and Graphs" sheet: Normalized Daily Index, Weekly Index raw, etc...
+        /// </summary>
         public void AddCharts()
         {
             //add chart to a separate sheet
             _chartSheet = _package.Workbook.Worksheets.Add("Charts and Graphs");
 
-            //format the cell address based on the dimension
+            //get the last possible row
             int lastRow = _dataSheet.Dimension.End.Row;
+
+            //format the ExcelBaseRange addresses to be used in forming r2 and r1
             string dateDimension = String.Format("B2:B{0}", lastRow.ToString());
             string normalizedIndex = String.Format("M2:M{0}", lastRow.ToString());
             string unNormalizedIndex = String.Format("H2:H{0}", lastRow.ToString());
@@ -252,109 +266,58 @@ namespace GoogleTrendsCombinator
             var weeklyY = _dataSheet.Cells[weeklyIndex];
 
             //add and format chart on the _chartSheet object
-            ExcelChart chart = _chartSheet.Drawings.AddChart("Chart1", eChartType.Line);
-            chart.Title.Text = "Normalized Daily Trends";
-            chart.Title.Font.Bold = true;
-            chart.SetPosition(2, 5, 1, 5);
-            chart.SetSize(550, 230);
-            chart.Series.Add(normalizedY, dateX);
-            chart.Series[0].Header = "NormalizedIndices";
-            chart.Style = eChartStyle.Style4;
-            chart.XAxis.Title.Text = "Date (Daily)";
-            chart.YAxis.Title.Text = "Trend Index";
-            chart.XAxis.Title.Font.Size = 10;
-            chart.YAxis.Title.Font.Size = 10;
+            _chart0 = _chartSheet.Drawings.AddChart("Chart1", eChartType.Line);
+            _chart0.Title.Text = "Normalized Daily Trends";
+            _chart0.Title.Font.Bold = true;
+            _chart0.SetPosition(2, 5, 1, 5);
+            _chart0.SetSize(550, 230);
+            _chart0.Series.Add(normalizedY, dateX);
+            _chart0.Series[0].Header = "NormalizedIndices";
+            _chart0.Style = eChartStyle.Style4;
+            _chart0.XAxis.Title.Text = "Date (Daily)";
+            _chart0.YAxis.Title.Text = "Trend Index";
+            _chart0.XAxis.Title.Font.Size = 10;
+            _chart0.YAxis.Title.Font.Size = 10;
 
-            ExcelChart chart4 = _chartSheet.Drawings.AddChart("Chart4", eChartType.Line);
-            chart4.Title.Text = "UnNormalized Daily Trends";
-            chart4.Title.Font.Bold = true;
-            chart4.SetPosition(2, 5, 10, 5);
-            chart4.SetSize(550, 230);
-            chart4.Series.Add(unNormalizedY, dateX);
-            chart4.Series[0].Header = "ReCalcedIndex";
-            chart4.Style = eChartStyle.Style5;
-            chart4.XAxis.Title.Text = "Date (Daily)";
-            chart4.YAxis.Title.Text = "Trend Index";
-            chart4.XAxis.Title.Font.Size = 10;
-            chart4.YAxis.Title.Font.Size = 10;
+            _chart1 = _chartSheet.Drawings.AddChart("Chart4", eChartType.Line);
+            _chart1.Title.Text = "Un-Normalized Daily Trends";
+            _chart1.Title.Font.Bold = true;
+            _chart1.SetPosition(2, 5, 10, 5); //row, row pixel offset, column, column pixeloffset
+            _chart1.SetSize(550, 230);
+            _chart1.Series.Add(unNormalizedY, dateX);
+            _chart1.Series[0].Header = "ReCalcedIndex";
+            _chart1.Style = eChartStyle.Style5;
+            _chart1.XAxis.Title.Text = "Date (Daily)";
+            _chart1.YAxis.Title.Text = "Trend Index";
+            _chart1.XAxis.Title.Font.Size = 10;
+            _chart1.YAxis.Title.Font.Size = 10;
 
-            ExcelChart chart2 = _chartSheet.Drawings.AddChart("Chart2", eChartType.Line);
-            chart2.Title.Text = "Daily Trends (Raw Data)";
-            chart2.Title.Font.Bold = true;
-            chart2.SetPosition(15, 5, 10, 5);
-            chart2.SetSize(550, 230);
-            chart2.Series.Add(dailyY, dateX);
-            chart2.Series[0].Header = "DailyIndex";
-            chart2.Style = eChartStyle.Style3;
-            chart2.XAxis.Title.Text = "Date (Daily)";
-            chart2.YAxis.Title.Text = "Trend Index";
-            chart2.XAxis.Title.Font.Size = 10;
-            chart2.YAxis.Title.Font.Size = 10;
+            _chart2 = _chartSheet.Drawings.AddChart("Chart2", eChartType.Line);
+            _chart2.Title.Text = "Daily Trends (Raw Data)";
+            _chart2.Title.Font.Bold = true;
+            _chart2.SetPosition(15, 5, 10, 5);
+            _chart2.SetSize(550, 230);
+            _chart2.Series.Add(dailyY, dateX);
+            _chart2.Series[0].Header = "DailyIndex";
+            _chart2.Style = eChartStyle.Style3;
+            _chart2.XAxis.Title.Text = "Date (Daily)";
+            _chart2.YAxis.Title.Text = "Trend Index";
+            _chart2.XAxis.Title.Font.Size = 10;
+            _chart2.YAxis.Title.Font.Size = 10;
 
-            ExcelChart chart3 = _chartSheet.Drawings.AddChart("Chart3", eChartType.Line);
-            chart3.Title.Text = "Weekly Trends (Raw Data)";
-            chart3.Title.Font.Bold = true;
-            chart3.SetPosition(15, 5, 1, 5);
-            chart3.SetSize(550, 230);
-            chart3.Series.Add(weeklyY, dateX);
-            chart3.Series[0].Header = "WeeklyIndex";
-            chart3.Style = eChartStyle.Style3;
-            chart3.XAxis.Title.Text = "Date (Weekly)";
-            chart3.YAxis.Title.Text = "Trend Index";
-            chart3.XAxis.Title.Font.Size = 10;
-            chart3.YAxis.Title.Font.Size = 10;
+            _chart3 = _chartSheet.Drawings.AddChart("Chart3", eChartType.Line);
+            _chart3.Title.Text = "Weekly Trends (Raw Data)";
+            _chart3.Title.Font.Bold = true;
+            _chart3.SetPosition(15, 5, 1, 5);
+            _chart3.SetSize(550, 230);
+            _chart3.Series.Add(weeklyY, dateX);
+            _chart3.Series[0].Header = "WeeklyIndex";
+            _chart3.Style = eChartStyle.Style3;
+            _chart3.XAxis.Title.Text = "Date (Weekly)";
+            _chart3.YAxis.Title.Text = "Trend Index";
+            _chart3.XAxis.Title.Font.Size = 10;
+            _chart3.YAxis.Title.Font.Size = 10;
         }
-
-        //public void Normalize()
-        //{
-        //    string searchTerm = _dailyParser.GetSearchTerm(); //sheet name
-
-        //    var excel = new ExcelQueryFactory();
-        //    excel.FileName = _fileStream.Name;
-        //    excel.ReadOnly = true;
-
-        //    var groupedMaxMin = from cells in excel.Worksheet<GoogleTrends>(searchTerm.ToUpper())
-        //                        group cells by cells.Group into g
-        //                        select new
-        //                        {
-        //                            Group = g.Key,
-        //                            MaxDailyIndex = g.Max(m => m.DailyIndex),
-        //                            MinDailyIndex = g.Min(m => m.DailyIndex),
-        //                            MaxWeeklyIndex = g.Max(m => m.WeeklyIndex),
-        //                            MinWeeklyIndex = g.Min(m => m.WeeklyIndex)
-        //                        };
-
-
-        //private void Normalize()
-        //{
-        //    _dataTable = new DataTable();
-        //    var columns = typeof(TableColumns).GetProperties();
-        //    foreach (var col in columns)
-        //    {
-        //        _dataTable.Columns.Add(new DataColumn(col.Name, col.PropertyType));
-        //    }
-
-        //    //get the trends into the table
-        //    var combinedTrends = (from daily in _dailyDict
-        //                          from weekly in _weeklyDict
-        //                          where (DateTime.Parse(daily.Key.Substring(daily.Key.IndexOf("Þ") + 1, 10)) >= DateTime.Parse(weekly.Key.Substring(0, 10)) && DateTime.Parse(daily.Key.Substring(daily.Key.IndexOf("Þ") + 1, 10)) <= DateTime.Parse(weekly.Key.Substring(13, 10)))
-        //                          select new GoogleTrends
-        //                          {
-        //                              Group = int.Parse(daily.Key.Substring(0, daily.Key.IndexOf("Þ"))),
-        //                              Date = DateTime.Parse(daily.Key.Substring(daily.Key.IndexOf("Þ") + 1, 10)),
-        //                              WeekStart = DateTime.Parse(weekly.Key.Substring(0, 10)),
-        //                              WeekEnd = DateTime.Parse(weekly.Key.Substring(13, 10)),
-        //                              DailyIndex = daily.Value,
-        //                              WeeklyIndex = weekly.Value
-        //                          }).OrderBy(x => x.Date);
-
-        //    foreach (var trend in combinedTrends)
-        //    {
-
-        //    }
-        //}
-
-        //}
 
         /// <summary>
         /// Saves the package to a filestream.
@@ -377,6 +340,13 @@ namespace GoogleTrendsCombinator
 
         public void Dispose()
         {
+            //dispose of the charts
+            _chart0.Dispose();
+            _chart1.Dispose();
+            _chart2.Dispose();
+            _chart3.Dispose();
+
+            //dispose of the package
             _package.Dispose();
         }
 
